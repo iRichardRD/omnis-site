@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>omni_</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08020f;
+  --s0:#0e0520;
+  --s1:#160a2e;
+  --s2:#1f0f42;
+  --border:rgba(180,120,255,.13);
+  --border2:rgba(180,120,255,.28);
+  --accent:#8b3cf7;
+  --accent2:#c084fc;
+  --accent3:#e879f9;
+  --text:#f0e6ff;
+  --muted:#9370b8;
+  --muted2:#5e3d80;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* AMBIENT GLOW ORBS */
+.orb{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  filter:blur(80px);opacity:.35;
+}
+.orb1{width:600px;height:600px;background:#6d28d9;top:-200px;left:-150px;animation:drift1 18s ease-in-out infinite alternate}
+.orb2{width:500px;height:500px;background:#a21caf;bottom:-150px;right:-100px;animation:drift2 22s ease-in-out infinite alternate}
+.orb3{width:300px;height:300px;background:#7c3aed;top:40%;left:50%;animation:drift3 15s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(80px,60px)}}
+@keyframes drift2{to{transform:translate(-60px,-80px)}}
+@keyframes drift3{to{transform:translate(40px,-50px)}}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,2,15,.7);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;height:56px;
+  display:flex;align-items:center;gap:16px;
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-size:1.45rem;font-weight:800;
+  letter-spacing:.06em;
+  background:linear-gradient(90deg,#e879f9,#c084fc,#818cf8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-decoration:none;flex-shrink:0;
+}
+.nav-search{
+  flex:1;max-width:400px;
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+}
+.nav-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(139,60,247,.2)}
+.nav-search input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Space Grotesk',sans-serif;
+  font-size:.88rem;padding:0 14px;height:36px;
+}
+.nav-search input::placeholder{color:var(--muted)}
+.nav-search .s-ico{color:var(--muted);padding:0 10px 0 12px;font-size:1rem;flex-shrink:0}
+.nav-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.nav-tab{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);padding:6px 16px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;letter-spacing:.04em;transition:all .18s;
+}
+.nav-tab:hover{color:var(--text);border-color:var(--muted2)}
+.nav-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent3));border-color:transparent;color:#fff}
+
+/* HERO */
+.hero{
+  position:relative;z-index:2;
+  text-align:center;padding:60px 24px 32px;
+}
+.hero-logo-icon{
+  width:80px;height:80px;border-radius:22px;
+  background:linear-gradient(135deg,#6d28d9,#a855f7,#e879f9);
+  margin:0 auto 18px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.4rem;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 20px 60px rgba(139,60,247,.5);
+  position:relative;
+}
+.hero-logo-icon::after{
+  content:'';position:absolute;inset:-2px;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(232,121,249,.4),rgba(139,60,247,.2),rgba(129,140,248,.4));
+  z-index:-1;filter:blur(8px);
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:2.6rem;font-weight:800;
+  letter-spacing:.06em;line-height:1;
+  background:linear-gradient(90deg,#fff 0%,#c084fc 50%,#e879f9 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:10px;
+}
+.hero-sub{
+  color:var(--muted);font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+}
+.hero-sub span{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  border-radius:999px;padding:4px 14px;font-size:.75rem;font-weight:500;
+  letter-spacing:.06em;
+}
+.discord-pill{
+  margin-top:18px;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(88,101,242,.14);
+  border:1px solid rgba(88,101,242,.3);
+  color:#a5b4fc;border-radius:10px;
+  padding:9px 20px;font-size:.82rem;font-weight:600;
+  cursor:pointer;text-decoration:none;
+  transition:background .2s,border-color .2s;
+  position:relative;z-index:2;
+}
+.discord-pill:hover{background:rgba(88,101,242,.28);border-color:rgba(88,101,242,.6)}
+.discord-pill svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+
+/* CATS */
+.cats-wrap{
+  position:relative;z-index:2;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:7px;
+  padding:8px 20px 20px;
+}
+.cat-btn{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  color:var(--muted);padding:6px 18px;border-radius:999px;
+  font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;
+  cursor:pointer;letter-spacing:.06em;text-transform:uppercase;
+  transition:all .18s;
+}
+.cat-btn:hover{color:var(--text);border-color:var(--muted2);background:rgba(255,255,255,.07)}
+.cat-btn.on{
+  background:linear-gradient(135deg,rgba(139,60,247,.35),rgba(232,121,249,.2));
+  border-color:var(--accent);color:var(--accent2);
+}
+
+/* SECTION LABEL */
+.sec-label{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:10px;
+  padding:4px 20px 12px;
+  font-size:.68rem;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted2);
+}
+.sec-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--border),transparent);
+}
+
+/* GAME GRID */
+.grid{
+  position:relative;z-index:2;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+  gap:12px;padding:0 20px 40px;
+}
+
+/* GAME CARD */
+.card{
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  background:var(--s1);
+  border:1px solid var(--border);
+  position:relative;
+  transition:transform .2s cubic-bezier(.34,1.4,.64,1),box-shadow .2s,border-color .2s;
+  display:flex;flex-direction:column;
+  aspect-ratio:3/4;
+}
+.card::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,transparent 45%,rgba(8,2,15,.96) 100%);
+  pointer-events:none;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 16px 48px rgba(139,60,247,.45),0 2px 8px rgba(0,0,0,.6);
+  border-color:var(--accent);
+}
+.card:hover .card-overlay{opacity:1}
+.card:hover .card-play{transform:translateY(0);opacity:1}
+
+.card-img{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;
+  transition:transform .3s;
+}
+.card:hover .card-img{transform:scale(1.06)}
+
+/* fallback gradient when no img */
+.card-fallback{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+}
+
+.card-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:rgba(88,28,135,.3);
+  opacity:0;transition:opacity .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-play{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(139,60,247,.9);
+  display:flex;align-items:center;justify-content:center;
+  transform:translateY(10px);opacity:0;
+  transition:transform .22s cubic-bezier(.34,1.4,.64,1),opacity .2s;
+  font-size:1.4rem;color:#fff;
+  box-shadow:0 0 24px rgba(139,60,247,.6);
+}
+.card-star{
+  position:absolute;top:9px;right:9px;z-index:3;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;color:rgba(255,255,255,.45);
+  transition:all .15s;cursor:pointer;
+}
+.card-star:hover{background:rgba(251,191,36,.2);border-color:#fbbf24;color:#fbbf24}
+.card-star.fav{background:rgba(251,191,36,.25);border-color:#fbbf24;color:#fbbf24}
+
+.card-badge{
+  position:absolute;top:9px;left:9px;z-index:3;
+  padding:3px 9px;border-radius:6px;
+  font-size:.6rem;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.badge-hot{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
+.badge-new{background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff}
+
+.card-info{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  padding:12px 12px 11px;
+}
+.card-title{
+  font-size:.85rem;font-weight:700;color:#fff;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-shadow:0 1px 4px rgba(0,0,0,.6);
+}
+.card-cat{
+  font-size:.66rem;color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:.07em;margin-top:2px;
+}
+
+/* GAME VIEWER */
+#viewer{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:var(--bg);flex-direction:column;
+}
+#viewer.open{display:flex}
+.viewer-bar{
+  background:rgba(14,5,32,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 18px;height:52px;
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.viewer-name{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:1rem;color:var(--accent2);
+}
+.viewer-close{
+  margin-left:auto;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);color:var(--muted);
+  padding:6px 16px;border-radius:8px;
+  font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .18s;
+}
+.viewer-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.5);color:#fca5a5}
+#game-frame{flex:1;border:none;background:#000}
+
+/* BROWSER PANEL */
+.browser-outer{
+  position:relative;z-index:2;
+  padding:16px 20px 40px;
+  height:calc(100vh - 56px);
+  display:flex;flex-direction:column;gap:0;
+}
+.browser-shell{
+  flex:1;
+  border-radius:14px;overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--s0);
+  display:flex;flex-direction:column;
+  box-shadow:0 0 60px rgba(139,60,247,.1);
+}
+.browser-chrome{
+  background:var(--s1);border-bottom:1px solid var(--border);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+.b-dots{display:flex;gap:6px}
+.b-dot{width:12px;height:12px;border-radius:50%}
+.b-dot:nth-child(1){background:#ff5f57}.b-dot:nth-child(2){background:#febc2e}.b-dot:nth-child(3){background:#28c840}
+.b-bar{
+  flex:1;display:flex;align-items:center;
+  background:rgba(0,0,0,.35);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;transition:border-color .2s;
+}
+.b-bar:focus-within{border-color:var(--accent)}
+.b-bar input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Space Grotesk',sans-serif;
+  font-size:.85rem;padding:7px 12px;
+}
+.b-bar input::placeholder{color:var(--muted)}
+.b-go{
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  border:none;color:#fff;padding:0 16px;
+  font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;
+  cursor:pointer;transition:opacity .2s;letter-spacing:.04em;
+}
+.b-go:hover{opacity:.85}
+#browser-frame{flex:1;border:none;background:#fff}
+
+/* PANEL */
+.panel{display:none;position:relative;z-index:2}
+.panel.active{display:block}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* SEARCH HIGHLIGHT */
+.card.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">omni_</a>
+  <div class="nav-search">
+    <span class="s-ico">⌕</span>
+    <input id="q" type="text" placeholder="search games…" oninput="doSearch()">
+  </div>
+  <div class="nav-right">
+    <button class="nav-tab active" onclick="showPanel('games',this)">Games</button>
+    <button class="nav-tab" onclick="showPanel('browser',this)">Browser</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo-icon">🔮</div>
+  <h1>omni_</h1>
+  <div class="hero-sub">
+    <span>ctrl + d to bookmark</span>
+    <span>unblocked</span>
+    <span>free</span>
+  </div>
+  <a class="discord-pill" href="#" onclick="return false">
+    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.04.033.052a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+    join the discord for more links
+  </a>
+</div>
+
+<!-- GAMES PANEL -->
+<div class="panel active" id="panel-games">
+  <div class="cats-wrap">
+    <button class="cat-btn on" onclick="filterCat('all',this)">All</button>
+    <button class="cat-btn" onclick="filterCat('action',this)">Action</button>
+    <button class="cat-btn" onclick="filterCat('simulation',this)">Simulation</button>
+    <button class="cat-btn" onclick="filterCat('racing',this)">Racing</button>
+    <button class="cat-btn" onclick="filterCat('puzzle',this)">Puzzle</button>
+    <button class="cat-btn" onclick="filterCat('io',this)">.io</button>
+    <button class="cat-btn" onclick="filterCat('horror',this)">Horror</button>
+    <button class="cat-btn" onclick="filterCat('rpg',this)">RPG</button>
+  </div>
+  <div class="sec-label">Featured Games</div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- BROWSER PANEL -->
+<div class="panel" id="panel-browser">
+  <div class="browser-outer">
+    <div class="browser-shell">
+      <div class="browser-chrome">
+        <div class="b-dots"><div class="b-dot"></div><div class="b-dot"></div><div class="b-dot"></div></div>
+        <div class="b-bar">
+          <input id="burl" type="text" placeholder="Search DuckDuckGo or enter a URL…" onkeydown="if(event.key==='Enter')goUrl()">
+          <button class="b-go" onclick="goUrl()">Go →</button>
+        </div>
+      </div>
+      <iframe id="browser-frame" src="https://duckduckgo.com" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- VIEWER -->
+<div id="viewer">
+  <div class="viewer-bar">
+    <span class="viewer-name" id="viewer-name"></span>
+    <button class="viewer-close" onclick="closeGame()">✕ close</button>
+  </div>
+  <iframe id="game-frame" src="" allow="fullscreen"></iframe>
+</div>
+
+<script>
+const GAMES=[
+  {id:'bitlife',   title:'BitLife',           emoji:'🧬', cat:'simulation',badge:'hot',
+   img:'https://img.gamemonetize.com/l56s6wbhpltjpzs4f2vtys9b25bj6j8g/512x384.jpg',
+   url:'https://bitlifeonline.github.io/'},
+  {id:'slope',     title:'Slope',             emoji:'🔺', cat:'action',    badge:'hot',
+   img:'https://img.gamemonetize.com/7yxnmq29mygvjp4b9jdiqrqfm10jtmds/512x384.jpg',
+   url:'https://slope-game.github.io/'},
+  {id:'1v1lol',    title:'1v1.LOL',           emoji:'🏗️', cat:'action',    badge:'hot',
+   img:'https://img.gamemonetize.com/7l5abtih47e7wgnktiqxstqoqhzpd5j1/512x384.jpg',
+   url:'https://1v1.lol'},
+  {id:'minecraft', title:'Minecraft Classic', emoji:'⛏️', cat:'rpg',       badge:'hot',
+   img:'https://img.gamemonetize.com/gdmz2jq98e53xmn0q74l65k9iozh5djg/512x384.jpg',
+   url:'https://classic.minecraft.net'},
+  {id:'subway',    title:'Subway Surfers',    emoji:'🛹', cat:'action',    badge:'',
+   img:'https://img.gamemonetize.com/q0dw7h7x7mchol1h81s94l7fh1bdmjh2/512x384.jpg',
+   url:'https://poki.com/en/g/subway-surfers'},
+  {id:'drift',     title:'Drift Hunters',     emoji:'🚗', cat:'racing',    badge:'',
+   img:'https://img.gamemonetize.com/2kvclb5r30e06cknmwuzblhcbfr2i5nl/512x384.jpg',
+   url:'https://drifthunters.github.io/'},
+  {id:'motox3m',   title:'Moto X3M',          emoji:'🏍️', cat:'racing',    badge:'',
+   img:'https://img.gamemonetize.com/v2r4z4bcvhifmfg5nj83c37z16xstco3/512x384.jpg',
+   url:'https://www.agame.com/game/moto-x3m'},
+  {id:'core',      title:'Coreball',          emoji:'🎯', cat:'puzzle',    badge:'',
+   img:'https://img.gamemonetize.com/9tmwb4sxo4b4wdxq0d47bqpwqrqk01xn/512x384.jpg',
+   url:'https://coreball.io'},
+  {id:'krunker',   title:'Krunker.io',        emoji:'🔫', cat:'io',        badge:'new',
+   img:'https://img.gamemonetize.com/8zxrb5v2d8s7j3g4b6m9q1n2p5y0w4r7/512x384.jpg',
+   url:'https://krunker.io'},
+  {id:'agar',      title:'Agar.io',           emoji:'🔵', cat:'io',        badge:'',
+   img:'https://img.gamemonetize.com/a3j7m2p8q6x9z0n4k5b1w3r6y8t2s9v5/512x384.jpg',
+   url:'https://agar.io'},
+  {id:'slither',   title:'Slither.io',        emoji:'🐍', cat:'io',        badge:'',
+   img:'https://img.gamemonetize.com/c5n8p3q7r2x4z9m6j1b0w5a8y3t6s2v4/512x384.jpg',
+   url:'https://slither.io'},
+  {id:'2048',      title:'2048',              emoji:'🔢', cat:'puzzle',    badge:'',
+   img:'https://img.gamemonetize.com/e7q1m4p9z3n6b8j2k5r0w7a2y4t8s6v3/512x384.jpg',
+   url:'https://play2048.co'},
+  {id:'chess',     title:'Chess.com',         emoji:'♟️', cat:'puzzle',    badge:'',
+   img:'https://img.gamemonetize.com/g9r3m7p1n5z8b4j6k2w9a4y7t1s5v0q8/512x384.jpg',
+   url:'https://www.chess.com/play/computer'},
+  {id:'cookie',    title:'Cookie Clicker',    emoji:'🍪', cat:'simulation',badge:'',
+   img:'https://img.gamemonetize.com/i1s5m9p3n7z2b6j4k8w3a6y1t5s9v4q2/512x384.jpg',
+   url:'https://orteil.dashnet.org/cookieclicker/'},
+  {id:'buckshot',  title:'Buckshot Roulette', emoji:'💀', cat:'horror',    badge:'hot',
+   img:'https://img.gamemonetize.com/k3t7m1p5n9z4b8j2k6w1a8y3t7s1v6q4/512x384.jpg',
+   url:'https://store.steampowered.com/app/2835570/'},
+  {id:'undertale', title:'Undertale Yellow',  emoji:'💛', cat:'rpg',       badge:'new',
+   img:'https://img.gamemonetize.com/m5v9m3p7n1z6b4j8k2w5a2y5t9s3v8q6/512x384.jpg',
+   url:'https://gamejolt.com/games/UndertaleYellow/136925'},
+  {id:'retrobowl', title:'Retro Bowl',        emoji:'🏈', cat:'action',    badge:'',
+   img:'https://img.gamemonetize.com/o7x1m5p9n3z8b2j6k4w7a4y7t3s5v2q8/512x384.jpg',
+   url:'https://retrobowlgame.com'},
+  {id:'tetris',    title:'Tetris',            emoji:'🧩', cat:'puzzle',    badge:'',
+   img:'https://img.gamemonetize.com/q9z3m7p1n5z0b8j4k6w9a6y9t7s7v4q0/512x384.jpg',
+   url:'https://tetris.com/play-tetris'},
+  {id:'papas',     title:"Papa's Burgeria",   emoji:'🍔', cat:'simulation',badge:'',
+   img:'https://img.gamemonetize.com/s1b5m9p3n7z4b0j2k8w1a8y1t1s9v6q2/512x384.jpg',
+   url:'https://www.coolmathgames.com/0-papas-burgeria'},
+  {id:'bloons',    title:'Bloons TD 6',       emoji:'🎈', cat:'action',    badge:'',
+   img:'https://img.gamemonetize.com/u3d7m1p5n9z6b4j0k2w3a0y3t5s1v8q4/512x384.jpg',
+   url:'https://ninja-kiwi.com'},
+];
+
+// card gradient fallbacks per category
+const GRAD={
+  action:'linear-gradient(135deg,#2d0a4e,#6d28d9)',
+  simulation:'linear-gradient(135deg,#0a2d1a,#065f46)',
+  racing:'linear-gradient(135deg,#0a1a2d,#1e40af)',
+  puzzle:'linear-gradient(135deg,#0d0a2d,#3730a3)',
+  io:'linear-gradient(135deg,#0a2d0d,#166534)',
+  horror:'linear-gradient(135deg,#2d0a0a,#991b1b)',
+  rpg:'linear-gradient(135deg,#2d1a0a,#92400e)',
+};
+
+let curCat='all', curQ='';
+const favs=new Set(JSON.parse(localStorage.getItem('omni-favs')||'[]'));
+
+function saveFavs(){localStorage.setItem('omni-favs',JSON.stringify([...favs]))}
+
+function render(){
+  const g=document.getElementById('grid');
+  const list=GAMES.filter(x=>{
+    const cm=curCat==='all'||x.cat===curCat;
+    const qm=!curQ||x.title.toLowerCase().includes(curQ.toLowerCase());
+    return cm&&qm;
+  });
+  g.innerHTML=list.map(x=>`
+    <div class="card" data-id="${x.id}" onclick="openGame('${x.id}')">
+      <div class="card-fallback" style="background:${GRAD[x.cat]||GRAD.action}">
+        <span style="font-size:3.5rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))">${x.emoji}</span>
+      </div>
+      <img class="card-img" src="${x.img}" alt="${x.title}"
+        onerror="this.style.display='none'" loading="lazy">
+      <div class="card-overlay"><div class="card-play">▶</div></div>
+      ${x.badge==='hot'?'<span class="card-badge badge-hot">🔥 hot</span>':x.badge==='new'?'<span class="card-badge badge-new">✦ new</span>':''}
+      <span class="card-star${favs.has(x.id)?' fav':''}" onclick="toggleFav(event,'${x.id}')">
+        ${favs.has(x.id)?'★':'☆'}
+      </span>
+      <div class="card-info">
+        <div class="card-title">${x.title}</div>
+        <div class="card-cat">${x.cat}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleFav(e,id){
+  e.stopPropagation();
+  favs.has(id)?favs.delete(id):favs.add(id);
+  saveFavs();
+  const star=e.currentTarget;
+  star.classList.toggle('fav');
+  star.textContent=favs.has(id)?'★':'☆';
+}
+
+function filterCat(c,el){
+  curCat=c;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+
+function doSearch(){
+  curQ=document.getElementById('q').value.trim();
+  if(curQ){
+    // switch to games panel
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-games').classList.add('active');
+  }
+  render();
+}
+
+function openGame(id){
+  const g=GAMES.find(x=>x.id===id);if(!g)return;
+  document.getElementById('viewer-name').textContent=g.title;
+  document.getElementById('game-frame').src=g.url;
+  document.getElementById('viewer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeGame(){
+  document.getElementById('viewer').classList.remove('open');
+  document.getElementById('game-frame').src='';
+  document.body.style.overflow='';
+}
+
+function showPanel(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+
+function goUrl(){
+  let v=document.getElementById('burl').value.trim();if(!v)return;
+  let url=/^https?:\/\//i.test(v)?v:/\.\w{2,}/.test(v)&&!v.includes(' ')?'https://'+v:'https://duckduckgo.com/?q='+encodeURIComponent(v);
+  document.getElementById('browser-frame').src=url;
+}
+
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});
+render();
+</script>
+</body>
+</html>
